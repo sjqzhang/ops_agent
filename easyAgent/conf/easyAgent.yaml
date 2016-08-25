@@ -1,0 +1,48 @@
+root: ..
+log:
+  level: debug
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  max_size: 20000000
+  max_backup: 10
+  file: log/easyAgent.log
+daemon:
+  name: easyAgent
+  pidfile: ./easyAgent.pid
+  stdin: /dev/null
+  stdout: log/easyAgent.out
+  stderr: log/easyAgent.err
+plugins:
+  - name: cmd_agent
+    path: easyPlugin
+    service:
+      type: reverse
+    config: null
+  - name: data_agent
+    path: easyPlugin
+    service:
+      type: customize
+    config:
+      linger_ms: 1000
+      max_queued_messages: 1000
+  - name: proc_monitor
+    path: easyPlugin
+    service:
+      type: timer
+      interval: 180
+      start_in_random: false
+    config: null
+  - name: clear_file
+    path: easyPlugin
+    service:
+      type: timer
+      interval: 1800
+      start_in_random: true
+    config: null
+  - name: auto_update
+    path: easyPlugin
+    service:
+      type: timer
+      interval: 600
+      start_in_random: false
+    config: null
+

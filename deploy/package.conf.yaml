@@ -1,0 +1,18 @@
+proc_list:
+    - proc_name: easyAgent
+    - proc_name: collector_agent
+    - proc_name: topo_collector_agent
+    - proc_name: user_log_collector_agent
+port_list: []
+start_script: ""
+stop_script: ""
+restart_script: ""
+install_prescript: ""
+install_postscript: ""
+update_prescript: ""
+update_postscript: ""
+rollback_prescript: ""
+rollback_postscript: ""
+proc_guard: stopStart
+port_guard: stopStart
+user: root:root

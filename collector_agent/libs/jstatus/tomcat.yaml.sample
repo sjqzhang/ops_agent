@@ -1,0 +1,84 @@
+##########
+# WARNING
+##########
+# This sample works only for tomcat
+
+instance:
+  type: tomcat
+  host: '[host]'
+  port: [port] # This is the JMX port on which Kafka exposes its metrics (usually 9999)
+  user: '[username]'
+  password: '[password]'
+  # trust_store_path: /path/to/trustStore.jks # Optional, should be set if ssl is enabled
+  # trust_store_password: password
+
+# Collect basic JVM information
+basic_collection:
+  memoryUsage: true           # collect information from MemoryPoolMXBean
+  threadInfo: true            # collect infromation from ThreadMXBean
+  garbageCollectInfo: true    # collect information from GarbageCollectorMXBean
+
+
+# Custom Mbeans, you have to define all information about the Mbeans
+custom_collection:
+  - include:
+      domain: 'Catalina'
+      bean: 'type=ThreadPool'
+      attribute:
+        currentThreadsBusy:
+          metric_type: gauge
+          alias: threads.busy
+        currentThreadCount:
+          alias: threads.count
+          metric_type: gauge
+        maxThreads:
+          alias: threads.max
+          metric_type: gauge
+
+  - include:
+      domain: 'Catalina'
+      bean: 'type=GlobalRequestProcessor'
+      attribute:
+        bytesSent:
+          alias: global.bytes_sent
+          metric_type: counter
+        bytesReceived:
+          alias: global.bytes_received
+          metric_type: counter
+        errorCount:
+          alias: global.error_count
+          metric_type: counter
+        requestCount:
+          alias: global.request_count
+          metric_type: counter
+        maxTime:
+          alias: global.max_time
+          metric_type: gauge
+        processingTime:
+          alias: global.processing_time
+          metric_type: counter
+
+  - include:
+      domain: 'Catalina'
+      bean: 'type=StringCache'
+      attribute:
+        accessCount:
+          alias: cache.access_count
+          metric_type: counter
+        hitCount:
+          alias: cache.hits_count
+          metric_type: counter
+
+  - include:
+      domain: 'Catalina'
+      bean: 'j2eeType=Servlet'
+      attribute:
+        processingTime:
+          alias: servlet.processing_time
+          metric_type: counter
+        errorCount:
+          alias: servlet.error_count
+          metric_type: counter
+        requestCount:
+          alias: servlet.request_count
+          metric_type: counter

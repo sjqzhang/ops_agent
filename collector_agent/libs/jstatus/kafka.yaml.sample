@@ -1,0 +1,173 @@
+##########
+# WARNING
+##########
+# This sample works only for Kafka >= 0.8.2.
+
+instance:
+  type: kafka
+  host: '[host]'
+  port: [port] # This is the JMX port on which Kafka exposes its metrics (usually 9999)
+  user: '[username]'
+  password: '[password]'
+  # java_bin_path: /path/to/java # Optional, should be set if the agent cannot find your java executable
+  # jmx_url: # Optional, should be set if using other jmx url
+  # trust_store_path: /path/to/trustStore.jks # Optional, should be set if ssl is enabled
+  # trust_store_password: password
+
+# Collect basic JVM information
+basic_collection:
+  memoryUsage: true           # collect information from MemoryPoolMXBean
+  threadInfo: true            # collect infromation from ThreadMXBean
+  garbageCollectInfo: true    # collect information from GarbageCollectorMXBean
+
+# Metrics collected by this check. You should not have to modify this.
+custom_collection:
+  #
+  # Aggregate cluster stats
+  #
+  - include:
+      domain: 'kafka.server'
+      bean: 'type=BrokerTopicMetrics,name=BytesOutPerSec'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: server.bytes_out_per_sec
+  - include:
+      domain: 'kafka.server'
+      bean: 'type=BrokerTopicMetrics,name=BytesInPerSec'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: server.bytes_in_per_sec
+  - include:
+      domain: 'kafka.server'
+      bean: 'type=BrokerTopicMetrics,name=MessagesInPerSec'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: server.messages_in_per_sec
+  - include:
+      domain: 'kafka.server'
+      bean: 'type=BrokerTopicMetrics,name=BytesRejectedPerSec'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: server.bytes_rejected_per_sec
+
+  #
+  # Request timings
+  #
+  - include:
+      domain: 'kafka.server'
+      bean: 'type=BrokerTopicMetrics,name=FailedFetchRequestsPerSec'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: server.failed_fetch_requests_per_sec
+  - include:
+      domain: 'kafka.server'
+      bean: 'type=BrokerTopicMetrics,name=FailedProduceRequestsPerSec'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: server.failed_produce_requests_per_sec
+  - include:
+      domain: 'kafka.network'
+      bean: 'type=RequestMetrics,name=TotalTimeMs,request=Produce'
+      attribute:
+        Mean:
+          metric_type: gauge
+          alias: network.request_produce_time_avg
+        99thPercentile:
+          metric_type: gauge
+          alias: network.request_produce_time_99percentile
+  - include:
+      domain: 'kafka.network'
+      bean: 'type=RequestMetrics,name=TotalTimeMs,request=Fetch'
+      attribute:
+        Mean:
+          metric_type: gauge
+          alias: network.request_fetch_time_avg
+        99thPercentile:
+          metric_type: gauge
+          alias: network.request_fetch_time_99percentile
+  - include:
+      domain: 'kafka.network'
+      bean: 'type=RequestMetrics,name=TotalTimeMs,request=UpdateMetadata'
+      attribute:
+        Mean:
+          metric_type: gauge
+          alias: network.request_update_metadata_time_avg
+        99thPercentile:
+          metric_type: gauge
+          alias: network.request_update_metadata_time_99percentile
+  - include:
+      domain: 'kafka.network'
+      bean: 'type=RequestMetrics,name=TotalTimeMs,request=Metadata'
+      attribute:
+        Mean:
+          metric_type: gauge
+          alias: network.request_metadata_time_avg
+        99thPercentile:
+          metric_type: gauge
+          alias: network.request_metadata_time_99percentile
+  - include:
+      domain: 'kafka.network'
+      bean: 'type=RequestMetrics,name=TotalTimeMs,request=Offsets'
+      attribute:
+        Mean:
+          metric_type: gauge
+          alias: network.request_offsets_time_avg
+        99thPercentile:
+          metric_type: gauge
+          alias: network.request_offsets_time_99percentile
+  - include:
+      domain: 'kafka.server'
+      bean: 'type=KafkaRequestHandlerPool,name=RequestHandlerAvgIdlePercent'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: server.request_handler_avg_idle_percent
+
+  #
+  # Replication stats
+  #
+  - include:
+      domain: 'kafka.server'
+      bean: 'type=ReplicaManager,name=IsrShrinksPerSec'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: server.replication_isr_shrinks
+  - include:
+      domain: 'kafka.server'
+      bean: 'type=ReplicaManager,name=IsrExpandsPerSec'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: server.replication_isr_expands
+  - include:
+      domain: 'kafka.controller'
+      bean: 'type=ControllerStats,name=LeaderElectionRateAndTimeMs'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: controller.replication_leader_elections
+  - include:
+      domain: 'kafka.controller'
+      bean: 'type=ControllerStats,name=UncleanLeaderElectionsPerSec'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: controller.replication_unclean_leader_elections
+
+  #
+  # Log flush stats
+  #
+  - include:
+      domain: 'kafka.log'
+      bean: 'type=LogFlushStats,name=LogFlushRateAndTimeMs'
+      attribute:
+        MeanRate:
+          metric_type: gauge
+          alias: log.flush_rate

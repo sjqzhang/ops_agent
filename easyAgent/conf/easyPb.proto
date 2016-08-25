@@ -1,0 +1,48 @@
+message request{
+    required uint32 org=1;
+    required string cmd=2;
+    required uint32 ip=3;
+    required string para=4;
+    required double time=5;
+    required uint32 magic=6;
+}
+
+message response{
+    required uint32 org=1;
+    required uint32 code=2;
+    required string msg=3;
+    optional double time=4;
+    required uint32 magic=5;
+}
+
+message val_type{
+    optional int32 int_key=1;
+    optional string str_key=2;
+    optional int64 int_val=3;
+    optional string str_val=4;
+}
+
+message report{
+    required uint32 org=1;
+    required uint32 dataid=2;
+    required uint32 type=3;
+    optional string name=4;
+    required double time=5;
+    required uint32 ip=6;
+    repeated val_type dims=7;
+    repeated val_type vals=8;
+    required uint32 magic=9;
+}
+
+message auth{
+    required uint32 org=1;
+    required double time=2;
+    required uint32 magic=3;
+    required uint32 state=4;
+    required string publicKey=5;
+    required string sig=6;
+}
+
+message batch_report{
+    repeated bytes msg=1;
+}

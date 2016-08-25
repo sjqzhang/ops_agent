@@ -1,0 +1,22 @@
+##########
+# WARNING
+##########
+# This sample works only for tomcat
+
+instance:
+  type: zookeeper  
+  host: '[host]'
+  port: [port] # This is the JMX port on which Kafka exposes its metrics (usually 9999)
+  user: '[username]'
+  password: '[password]'
+  # trust_store_path: /path/to/trustStore.jks # Optional, should be set if ssl is enabled
+  # trust_store_password: password
+
+# Collect basic JVM information
+basic_collection:
+  memoryUsage: true           # collect information from MemoryPoolMXBean
+  threadInfo: true            # collect infromation from ThreadMXBean
+  garbageCollectInfo: true    # collect information from GarbageCollectorMXBean
+
+
+# Custom Mbeans, you have to define all information about the Mbeans

@@ -1,0 +1,28 @@
+root: ..
+log:
+  level: info
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  max_size: 20000000
+  max_backup: 10
+  file: log/topo_collector.log
+daemon:
+  name: topo_collector_agent
+  pidfile: ./topo_collector_agent.pid
+  stdin: /dev/null
+  stdout: log/topo_collector.out
+  stderr: log/topo_collector.err
+plugins:
+  - name: topo_collector
+    path: topo
+    service:
+      type: timer
+      interval: 3600
+      start_in_random: false
+    config:
+      packet_count: 10000
+      sniff_timeout: 600
+      cpu_threshold: 70 #cpu阈值
+      packets_threshold: 10000  #每秒包量阈值
+      net_flow_threshold: 200 #每秒流量阈值（mb)
+      random_sleep: 2800 #随机休眠时间(s)
+      max_report: 100 #最大上报条数

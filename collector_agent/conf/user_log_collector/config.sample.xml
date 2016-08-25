@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<root>
+  <log_node name="example">
+    <path>/var/log/messages</path>
+  </log_node>
+</root>

@@ -1,0 +1,34 @@
+root: ..
+log:
+  level: debug
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  max_size: 20000000
+  max_backup: 10
+  file: log/log_collector.log
+daemon:
+  name: log_collector_agent
+  pidfile: ./log_collector_agent.pid
+  stdin: /dev/null
+  stdout: /dev/null
+  stderr: /dev/null
+plugins:
+  - name: log_collector
+    path: collector
+    service:
+      type: timer
+      interval: 1
+      start_in_random: false
+    config:
+      path: /usr/local/easyops/ens_client/log/call_log/
+      pattern: ens_sdk*.log.txt
+      max_log_report_per_sec: 1000
+  - name: log_finder
+    path: collector
+    service:
+      type: timer
+      interval: 15
+      start_in_random: false
+    config:
+      collector_name: log_collector
+
+

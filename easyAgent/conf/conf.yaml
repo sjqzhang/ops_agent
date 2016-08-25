@@ -1,0 +1,26 @@
+base:
+    type: agent
+    client_id: __ORGID__
+    version: "2.10.12"
+
+command:
+    #file download temp path
+    servers:
+     -  ip: __SERVERIP__
+        port: 5511
+    tmp_path: /tmp/easyops/
+    socket_auth: False
+    socket_encr: False
+
+report:
+    server_groups:
+      - name: default
+        hosts:
+          - ip: __SERVERIP__
+            port: 8820
+            update_port: 80
+    socket_auth: False
+    socket_encr: False
+    local_port: 18810
+    local_json_port: 18811
+

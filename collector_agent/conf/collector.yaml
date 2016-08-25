@@ -1,0 +1,115 @@
+root: ..
+log:
+  level: debug
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  max_size: 20000000
+  max_backup: 10
+  file: log/collector.log
+daemon:
+  name: collector_agent
+  pidfile: ./collector_agent.pid
+  stdin: /dev/null
+  stdout: log/collector.out
+  stderr: log/collector.err
+plugins:
+  - name: host_collector
+    path: collector
+    service:
+      type: timer
+      interval: 60
+      start_in_random: false
+    config: null
+  - name: cmdb_collector
+    path: collector
+    service:
+      type: timer
+      interval: 300
+      start_in_random: false
+    config: null
+  # - name: conn_collector
+  #   path: collector
+  #   service:
+  #     type: timer
+  #     interval: 60
+  #     start_in_random: true
+  #   config: null
+  - name: nginx_collector
+    path: collector
+    service:
+      type: timer
+      interval: 60
+      start_in_random: true
+    config:
+      disabled: false
+  - name: apache_collector
+    path: collector
+    service:
+      type: timer
+      interval: 60
+      start_in_random: true
+    config:
+      disabled: false
+  - name: mysql_collector
+    path: collector
+    service:
+      type: timer
+      interval: 60
+      start_in_random: true
+    config:
+      disabled: false
+  - name: memcached_collector
+    path: collector
+    service:
+      type: timer
+      interval: 60
+      start_in_random: true
+    config:
+      disabled: false
+  - name: redis_collector
+    path: collector
+    service:
+      type: timer
+      interval: 60
+      start_in_random: true
+    config:
+      disabled: false
+  - name: mongodb_collector
+    path: collector
+    service:
+      type: timer
+      interval: 60
+      start_in_random: true
+    config:
+      disabled: false
+  - name: jvm_collector
+    path: collector
+    service:
+      type: timer
+      interval: 60
+      start_in_random: true
+    config:
+      disabled: false
+  - name: tomcat_collector
+    path: collector
+    service:
+      type: timer
+      interval: 60
+      start_in_random: true
+    config:
+      disabled: false
+  - name: zookeeper_collector
+    path: collector
+    service:
+      type: timer
+      interval: 60
+      start_in_random: true
+    config:
+      disabled: false
+  - name: kafka_collector
+    path: collector
+    service:
+      type: timer
+      interval: 60
+      start_in_random: true
+    config:
+      disabled: false

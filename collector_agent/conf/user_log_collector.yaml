@@ -1,0 +1,32 @@
+root: ..
+log:
+  level: debug
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  max_size: 20000000
+  max_backup: 10
+  file: log/user_log_collector.log
+daemon:
+  name: user_log_collector_agent
+  pidfile: ./user_log_collector_agent.pid
+  stdin: /dev/null
+  stdout: log/user_log_collector.out
+  stderr: log/user_log_collector.err
+plugins:
+  - name: user_log_collector
+    path: collector
+    service:
+      type: timer
+      interval: 1
+      start_in_random: false
+    config:
+      max_log_report_per_sec: 1000
+      max_fd_num: 1000
+      user_log_config_path:  /usr/local/easyops/agent/collector_agent/conf/user_log_collector/config.xml
+      sysconf_path: /usr/local/easyops/agent/easyAgent/conf/sysconf.ini
+      record_file: /usr/local/easyops/agent/collector_agent/data/user_log_collector/record/record.txt
+      data_ids:
+        _monitor: 3515
+        default: 3505
+
+
+

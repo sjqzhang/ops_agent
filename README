@@ -1,0 +1,23 @@
+一、日志采集配置方式
+可修改collector_agent/conf/user_log_collector/config.xml配置采集的日志文件，修改后无需重启，系统会自动reload
+
+示例文件：
+<?xml version="1.0"?>
+<root force_reload_interval="15" >
+  <log_node name="test" start_pos="begin">
+    <path>/data/app1/app.log</path>
+  </log_node>
+  <log_node name="test1" start_pos="end">
+    <path>/data/app2/*.log</path>
+  </log_node>
+</root>
+
+字段说明：
+force_reload_interval： reload配置文件的时间间隔，建议15s以上；
+name: log_node标签的名字， 需要唯一，注意 命名不能以下滑线 _ 开头，这个可以用来做日志类型的区分，前台可针对此进行区分过滤；
+start_pos: begin表示从文件起始位置读取， end表示从文件末尾位置读取；
+path标签中的内容为日志文件的绝对路径， 支持*模糊匹配和**递归匹配(注意不要做深层递归查找，会比较耗时);
+
+
+
+

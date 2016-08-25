@@ -1,0 +1,26 @@
+##########
+# WARNING
+##########
+# This sample works only for Kafka >= 0.8.2.
+# If you are running a version older than that, you can refer to agent 5.2.x released
+
+instance:
+  type: 'jvm'
+  host: '[host]'
+  port: [port] # This is the JMX port on which Kafka exposes its metrics (usually 9999)
+  user: '[username]'
+  password: '[password]'
+  # java_bin_path: /path/to/java # Optional, should be set if the agent cannot find your java executable
+  # jmx_url: # Optional, should be set if using other jmx url
+  # trust_store_path: /path/to/trustStore.jks # Optional, should be set if ssl is enabled
+  # trust_store_password: password
+
+# Collect basic JVM information
+basic_collection:
+  memoryUsage: true           # collect information from MemoryPoolMXBean
+  threadInfo: true            # collect infromation from ThreadMXBean
+  garbageCollectInfo: true    # collect information from GarbageCollectorMXBean
+
+
+
+

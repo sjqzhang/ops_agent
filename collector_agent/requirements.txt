@@ -1,0 +1,6 @@
+--index https://pypi.python.org/simple/
+
+py-cpuinfo==0.1.8
+procfs==0.5.0
+netifaces==0.10.4
+psutil>=3.3.0

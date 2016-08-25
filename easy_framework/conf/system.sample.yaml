@@ -1,0 +1,37 @@
+root: ..
+log:
+  level: debug
+  format: '%(asctime)s %(filename)s %(funcName)s %(lineno)s %(levelname)s %(message)s'
+  max_size: 20000000
+  max_backup: 10
+  file: log/system.log
+daemon:
+  name: EasySample
+  pidfile: /tmp/easy_application.pid
+  stdin: /dev/null
+  stdout: /dev/null
+  stderr: /dev/null
+plugins:
+  - name: http_sample
+    path: plugins/http_sample/
+    service:
+      type: network
+      protocol: tcp
+      ip: 0.0.0.0
+      port: 5000
+    config: null
+  - name: timer_sample
+    path: plugins/timer_sample/
+    service:
+      type: timer
+      interval: 3
+      start_in_random: false
+    config: null
+  - name: unix_socket_sample
+    path: plugins/unix_socket_sample/
+    service:
+      type: ipc
+      protocol: unix_socket
+      path: /tmp/unix_socket_sample
+    config: null
+
